@@ -51,7 +51,7 @@ document.getElementById("sliderLabel").innerHTML = timeValues[0]
 var urlPrefix = "https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/DataForMap/"
 
 
-var url = urlPrefix+timeValues[0]+".tif"
+var url = urlPrefix+timeValues[0]+".png"
 
 var imageOverlay = new L.ImageOverlay(url, bounds, {
     opacity: 0.7,
@@ -64,7 +64,7 @@ slider.oninput = function() {
   //changing the label
   document.getElementById("sliderLabel").innerHTML = timeValues[this.value-1]
   //setting the url of the overlay
-  imageOverlay.setUrl(urlPrefix+timeValues[this.value-1]+".tif")
+  imageOverlay.setUrl(urlPrefix+timeValues[this.value-1]+".png")
 }
 
 var playTimeOut;
@@ -89,7 +89,7 @@ function play() {
         //changing the label
         document.getElementById("sliderLabel").innerHTML = timeValues[Number(val)-1]
         //setting the url of the overlay
-        imageOverlay.setUrl(urlPrefix+timeValues[Number(val)-1]+".tif")
+        imageOverlay.setUrl(urlPrefix+timeValues[Number(val)-1]+".png")
 
     }, 1000);
 }
