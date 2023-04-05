@@ -2,15 +2,13 @@
 /* 1. === Setting up Map === */
 /* set up with zoom 5, may change, changed lat
 and long from 34,0836417742618, -118.5298649280784 */
-let map = L.map('map', { zoomControl: false }).setView([21.196640407274728, 72.40726019546284], 5, {crs: L.CRS.EPSG4326});
+let map = L.map('map', { zoomControl: false }).setView([21.196640407274728, 72.40726019546284], 5);
 
 var basemaps = {
     'Topo Map': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-        crs: L.CRS.EPSG4326
     }),
 
     'Geo World Map': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-        crs: L.CRS.EPSG4326
     }),
 
 };
@@ -23,9 +21,13 @@ L.control.zoom({
   position: 'topright'
 }).addTo(map);
 
+sidebarContentController("story-slide");
+
+L.Control.geocoder().addTo(map);
+
 var bounds = new L.LatLngBounds(
-    new L.LatLng(40, 59),
-    new L.LatLng(4, 98));
+    new L.LatLng(5.89607, 67.67457),
+    new L.LatLng(35.77300, 97.49344));
 map.fitBounds(bounds);
 
 var months = ['PM25']
@@ -49,23 +51,64 @@ document.getElementById("sliderLabel").innerHTML = timeValues[0]
 var urlPrefix = "https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/DataForMap/"
 
 
+var url = urlPrefix+timeValues[0]+".tif"
+
+var imageOverlay = new L.ImageOverlay(url, bounds, {
+    opacity: 0.7,
+    interactive: false
+}).addTo(map);
 
 
+//function when sliding
+slider.oninput = function() {
+  //changing the label
+  document.getElementById("sliderLabel").innerHTML = timeValues[this.value-1]
+  //setting the url of the overlay
+  imageOverlay.setUrl(urlPrefix+timeValues[this.value-1]+".tif")
+}
 
-/* === initial Filling in Map with our motiviation statement in our data table info == */
-// might also want to change the name from data table to smething else during this intial step
+var playTimeOut;
 
-initializeMap();
-// initializeDataTable(); //<-- this will also be called when zoom level is 9
-console.log("MAP INITIALIZED CALLING FNS");
+function play() {
+    playTimeOut = setTimeout(function () {
+        //increasing the slider by 1 (if not already at the end)
+        var val = document.getElementById("slider").value
+        console.log(val)
+        //if end of slider, stopping
+        if(val == document.getElementById("slider").max){
+            clearTimeout(playTimeOut);
+              //hidding the stop button
+              document.getElementById('stop').style.display = "none";
+              //showing the play button
+              document.getElementById('play').style.display = "block";
+        }
+        else{
+        document.getElementById("slider").value = Number(val)+1
+        play()
+        }
+        //changing the label
+        document.getElementById("sliderLabel").innerHTML = timeValues[Number(val)-1]
+        //setting the url of the overlay
+        imageOverlay.setUrl(urlPrefix+timeValues[Number(val)-1]+".tif")
 
-/* === Fillling Map and Data Table === */
-// clear map
-// take list of filters checked ON and fill map with them
-// depending on list of filter, fill the table with relevant info
+    }, 1000);
+}
 
+document.getElementById('play').onclick = function(e){
+  play()
+  //showing the stop button
+  document.getElementById('stop').style.display = "block";
+  //hidding the play button
+  document.getElementById('play').style.display = "none";
+}
 
-let dataT = [];
+document.getElementById('stop').onclick = function(e){
+  clearTimeout(playTimeOut);
+  //hidding the stop button
+  document.getElementById('stop').style.display = "none";
+  //showing the play button
+  document.getElementById('play').style.display = "block";
+}
 
-
-//updateMap(TWTEN,styleTWTEN,onEachFeatureTWTEN,getTableData);
+//hidding the stop button by default
+document.getElementById('stop').style.display = "none";
