@@ -55,30 +55,10 @@ function style(feature) {
 
 const stylevars = {
   PMTFV: style,
-  TWTEN: styleTWTEN,
-  TWELE: styleTWELE,
-  TWTWE: styleTWTWE,
-  TWTHI: styleTWTHI,
-  TWFOU: styleTWFOU,
-  TWFIF: styleTWFIF,
-  TWSIX: styleTWSIX,
-  TWSEV: styleTWSEV,
-  TWEIG: styleTWEIG,
-  TWNIN: styleTWNIN
 };
 
 const bindingsvars = {
   PMTFV: onEachFeaturePMTFV,
-  TWTEN: onEachFeatureTWTEN,
-  TWELE: onEachFeatureTWELE,
-  TWTWE: onEachFeatureTWTWE,
-  TWTHI: onEachFeatureTWTHI,
-  TWFOU: onEachFeatureTWFOU,
-  TWFIF: onEachFeatureTWFIF,
-  TWSIX: onEachFeatureTWSIX,
-  TWSEV: onEachFeatureTWSEV,
-  TWEIG: onEachFeatureTWEIG,
-  TWNIN: onEachFeatureTWNIN
 };
 
 function updateMap(url, styleType, bindings) {
