@@ -26,8 +26,8 @@ sidebarContentController("story-slide");
 L.Control.geocoder().addTo(map);
 
 var bounds = new L.LatLngBounds(
-    new L.LatLng(5.89607, 67.67457),
-    new L.LatLng(35.77300, 97.49344));
+    new L.LatLng(0.1221305, 54.1038326),
+    new L.LatLng(43.7838013, 109.0015138));
 map.fitBounds(bounds);
 
 var months = ['PM25']
@@ -48,7 +48,7 @@ document.getElementById("slider").max = ""+timeValues.length+"";
 document.getElementById("sliderLabel").innerHTML = timeValues[0]
 
 //change the prefix of the url if your images are not in the same folder as your script
-var urlPrefix = "https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/DataForMap/"
+var urlPrefix = "https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/"
 
 
 var url = urlPrefix+timeValues[0]+".png"
@@ -112,3 +112,11 @@ document.getElementById('stop').onclick = function(e){
 
 //hidding the stop button by default
 document.getElementById('stop').style.display = "none";
+
+
+
+let layerGroup = L.layerGroup().addTo(map);
+
+initializeMap();
+
+let dataT = [];
