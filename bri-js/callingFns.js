@@ -4,18 +4,25 @@
 and long from 34,0836417742618, -118.5298649280784 */
 let map = L.map('map', { zoomControl: false }).setView([21.196640407274728, 72.40726019546284], 5);
 
-var basemaps = {
-    'Topo Map': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-    }),
+const basemap = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
+const attribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
 
-    'Geo World Map': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
-    }),
+L.tileLayer(basemap, {
+  attribution,
+}).addTo(map);
 
-};
+//var basemaps = {
+//    'Topo Map': L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+//    }),
+//
+//    'Geo World Map': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}', {
+//    }),
+//
+//};
 
-L.control.layers(basemaps).addTo(map);
+//L.control.layers(basemaps).addTo(map);
 
-basemaps["Topo Map"].addTo(map);
+//basemaps["Topo Map"].addTo(map);
 
 L.control.zoom({
   position: 'topright'
@@ -25,9 +32,15 @@ sidebarContentController("story-slide");
 
 L.Control.geocoder().addTo(map);
 
+let layerGroup = L.layerGroup().addTo(map);
+
+initializeMap();
+
+let dataT = [];
+
 var bounds = new L.LatLngBounds(
-    new L.LatLng(0.1221305, 54.1038326),
-    new L.LatLng(43.7838013, 109.0015138));
+    new L.LatLng(-1.122130, 53.1038326),
+    new L.LatLng(42.4138013, 110.0015138));
 map.fitBounds(bounds);
 
 var months = ['PM25']
@@ -54,7 +67,7 @@ var urlPrefix = "https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/m
 var url = urlPrefix+timeValues[0]+".png"
 
 var imageOverlay = new L.ImageOverlay(url, bounds, {
-    opacity: 0.7,
+    opacity: 1.0,
     interactive: false
 }).addTo(map);
 
@@ -112,11 +125,3 @@ document.getElementById('stop').onclick = function(e){
 
 //hidding the stop button by default
 document.getElementById('stop').style.display = "none";
-
-
-
-let layerGroup = L.layerGroup().addTo(map);
-
-initializeMap();
-
-let dataT = [];
