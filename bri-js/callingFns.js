@@ -38,10 +38,12 @@ initializeMap();
 
 let dataT = [];
 
+
 var bounds = new L.LatLngBounds(
-    new L.LatLng(-1.122130, 53.1038326),
-    new L.LatLng(42.4138013, 110.0015138));
+    new L.LatLng(-1.382130, 54.1038326),
+    new L.LatLng(42.0138013, 109.1015138));
 map.fitBounds(bounds);
+
 
 var months = ['PM25']
 var years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
