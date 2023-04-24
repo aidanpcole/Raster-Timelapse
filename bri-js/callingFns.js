@@ -2,7 +2,7 @@
 /* 1. === Setting up Map === */
 /* set up with zoom 5, may change, changed lat
 and long from 34,0836417742618, -118.5298649280784 */
-let map = L.map('map', { zoomControl: false }).setView([22, 78.5], 5);
+let map = L.map('map', { zoomControl: false }).setView([20.995, 78.925], 10);
 
 const basemap = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
 const attribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
@@ -31,6 +31,7 @@ L.control.zoom({
 sidebarContentController("story-slide");
 
 L.Control.geocoder().addTo(map);
+L.control.browserPrint({position: 'topright'}).addTo(map);
 
 let layerGroup = L.layerGroup().addTo(map);
 
@@ -40,8 +41,8 @@ let dataT = [];
 
 
 var bounds = new L.LatLngBounds(
-    new L.LatLng(-1.382130, 54.1038326),
-    new L.LatLng(42.0138013, 109.1015138));
+    new L.LatLng(6.75, 59.61),
+    new L.LatLng(35.24, 98.24));
 map.fitBounds(bounds);
 
 
