@@ -2,7 +2,7 @@
 /* 1. === Setting up Map === */
 /* set up with zoom 5, may change, changed lat
 and long from 34,0836417742618, -118.5298649280784 */
-let map = L.map('map', { zoomControl: false }).setView([20.94525, 78.9446], 5);
+let map = L.map('map', { zoomControl: false }).setView([20.94525, 78.9446], 3);
 
 const basemap = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
 const attribution = 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.';
@@ -24,18 +24,9 @@ L.tileLayer(basemap, {
 
 //basemaps["Topo Map"].addTo(map);
 
-L.control.zoom({
-  position: 'topright'
-}).addTo(map);
-
 sidebarContentController("story-slide");
 
-L.Control.geocoder().addTo(map);
-L.control.browserPrint({position: 'topright'}).addTo(map);
-
-let layerGroup = L.layerGroup().addTo(map);
-
-initializeMap();
+L.control.browserPrint({position: 'bottomright'}).addTo(map);
 
 let dataT = [];
 
@@ -45,86 +36,110 @@ var bounds = new L.LatLngBounds(
     new L.LatLng(35.8752762, 99.2332081));
 map.fitBounds(bounds);
 
-
-var months = ['PM25']
-var years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
-
-//storing all possible times
-var timeValues = []
-for(var i in years){
-    for(var y in months){
-        timeValues.push(months[y]+"_"+years[i])
-    }
-}
-
-//setting max value of the slider
-document.getElementById("slider").max = ""+timeValues.length+"";
-
-//setting default label of the slider
-document.getElementById("sliderLabel").innerHTML = timeValues[0]
-
-//change the prefix of the url if your images are not in the same folder as your script
-var urlPrefix = "https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/"
-
-
-var url = urlPrefix+timeValues[0]+".png"
-
-var imageOverlay = new L.ImageOverlay(url, bounds, {
+var layer2010 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2010.png", bounds, {
     opacity: 1.0,
-    interactive: false
+    interactive: false,
+    time: "2010"
+});
+
+var layer2011 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2011.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2011"
+});
+
+var layer2012 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2012.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2012"
+});
+
+var layer2013 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2013.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2013"
+});
+
+var layer2014 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2014.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2014"
+});
+
+var layer2015 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2015.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2015"
+});
+
+var layer2016 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2016.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2016"
+});
+
+var layer2017 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2017.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2017"
+});
+
+var layer2018 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2018.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2018"
+});
+
+var layer2019 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/ReferenceData/PM25_2019.png", bounds, {
+    opacity: 1.0,
+    interactive: false,
+    time: "2019"
+});
+
+
+layerGroup = L.layerGroup([layer2010,layer2011,layer2012,layer2013,layer2014,layer2015,layer2016,layer2017,layer2018,layer2019]);
+var sliderControl = L.control.sliderControl({position: "topright", layer: layerGroup, follow: 1, range: true, alwaysShowDate: true});
+map.addControl(sliderControl);
+sliderControl.startSlider();
+L.Control.geocoder({position: 'bottomright'}).addTo(map);
+L.control.zoom({
+  position: 'bottomright'
 }).addTo(map);
+initializeMap();
+map.setView([21.79, 78.43], 5);
 
+const markerImage = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
 
-//function when sliding
-slider.oninput = function() {
-  //changing the label
-  document.getElementById("sliderLabel").innerHTML = timeValues[this.value-1]
-  //setting the url of the overlay
-  imageOverlay.setUrl(urlPrefix+timeValues[this.value-1]+".png")
-}
-
-var playTimeOut;
-
-function play() {
-    playTimeOut = setTimeout(function () {
-        //increasing the slider by 1 (if not already at the end)
-        var val = document.getElementById("slider").value
-        console.log(val)
-        //if end of slider, stopping
-        if(val == document.getElementById("slider").max){
-            clearTimeout(playTimeOut);
-              //hidding the stop button
-              document.getElementById('stop').style.display = "none";
-              //showing the play button
-              document.getElementById('play').style.display = "block";
+function addMarkers(url) { // THIS IS for pools, cooling centers and hosp
+  let markersClust = new L.MarkerClusterGroup();
+  let iconuse;
+  iconuse = markerImage;
+  fetch(url)
+    .then(resp => resp.json())
+    .then(data => {
+      L.geoJSON(data, {
+        onEachFeature(feature) {
+          let popupContent = `<h4> ${feature.properties.Name} </h4>
+        <p>India Rank: ${feature.properties.IRank} <br>
+        World Rank: ${feature.properties.WRank} <br>
+        PM 2.5 Concentration: ${feature.properties.Concentration} <br> </p>`;
+          let marker = L.marker(
+            [feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
+            { icon: iconuse }
+          ).bindPopup(popupContent);
+          markersClust.addLayer(marker);
         }
-        else{
-        document.getElementById("slider").value = Number(val)+1
-        play()
-        }
-        //changing the label
-        document.getElementById("sliderLabel").innerHTML = timeValues[Number(val)-1]
-        //setting the url of the overlay
-        imageOverlay.setUrl(urlPrefix+timeValues[Number(val)-1]+".png")
-
-    }, 1000);
+      });
+      map.addLayer(markersClust);
+    });
+  }
 }
 
-document.getElementById('play').onclick = function(e){
-  play()
-  //showing the stop button
-  document.getElementById('stop').style.display = "block";
-  //hidding the play button
-  document.getElementById('play').style.display = "none";
-}
-
-document.getElementById('stop').onclick = function(e){
-  clearTimeout(playTimeOut);
-  //hidding the stop button
-  document.getElementById('stop').style.display = "none";
-  //showing the play button
-  document.getElementById('play').style.display = "block";
-}
-
-//hidding the stop button by default
-document.getElementById('stop').style.display = "none";
+addMarkers("https://raw.githubusercontent.com/aidanpcole/Raster-Timelapse/main/data/DataForMap/15mostpollutedcities.geojson"); 

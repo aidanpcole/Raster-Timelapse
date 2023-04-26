@@ -71,7 +71,7 @@ function updateMap(url, styleType, bindings) {
       L.geoJSON(data, {
         style: styleType,
         onEachFeature: bindings
-      }).addTo(map);
+      }).addTo(layerGroup);
     });
 }
 
