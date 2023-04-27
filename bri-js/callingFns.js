@@ -6,7 +6,7 @@ var bounds = new L.LatLngBounds(
     new L.LatLng(6.0152277, 58.6560663),
     new L.LatLng(35.8752762, 99.2332081));
 
-let map = L.map('map', {zoomControl: false, center: bounds.getCenter(),maxBounds: bounds,maxBoundsViscosity: 1.0, maxZoom:8, minZoom:4 }).setView([20.94525, 78.9446], 3);
+let map = L.map('map', {zoomControl: false, center: bounds.getCenter(),maxBounds: bounds,maxBoundsViscosity: 1.0, maxZoom:9, minZoom:4 }).setView([20.94525, 78.9446], 3);
 map.fitBounds(bounds);
 
 const basemap = 'http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
@@ -113,16 +113,16 @@ var layer2019 = new L.ImageOverlay("https://raw.githubusercontent.com/aidanpcole
 layerGroup = L.layerGroup([layer2010,layer2011,layer2012,layer2013,layer2014,layer2015,layer2016,layer2017,layer2018,layer2019]);
 var sliderControl = L.control.sliderControl({position: "topright", layer: layerGroup, timeAttribute: 'time', follow: 1, startTimeIdx: 0, timeStrLength: 4, alwaysShowDate: true});
 map.addControl(sliderControl);
-//setInterval(function(){
-//            var current = $('#leaflet-slider').slider("value");
-//            var max = sliderControl.options.maxValue + 1;
-//            var step = ++current % max;
-//            $('#leaflet-slider').slider("value", step);
-//            sliderControl.slide(null, {value: step});
-//        }, 1500);
+setInterval(function(){
+            var current = $('#leaflet-slider').slider("value");
+            var max = sliderControl.options.maxValue + 1;
+            var step = ++current % max;
+            $('#leaflet-slider').slider("value", step);
+            sliderControl.slide(null, {value: step});
+        }, 1000);
 sliderControl.startSlider();
 initializeMap();
-L.Control.geocoder({position: 'bottomright'}).addTo(map);
+L.Control.geocoder({position: 'topright', placeholder: 'Search for location...'}).addTo(map);
 L.control.zoom({
   position: 'bottomright'
 }).addTo(map);
